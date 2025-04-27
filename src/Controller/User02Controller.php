@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User02;
 use App\Form\User02Type;
-use App\Repository\UserRepository;
+use App\Repository\User02Repository;  // Use the correct repository
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +15,10 @@ use Symfony\Component\Routing\Attribute\Route;
 final class User02Controller extends AbstractController
 {
     #[Route(name: 'app_user02_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(User02Repository $user02Repository): Response  // Use User02Repository
     {
         return $this->render('user02/index.html.twig', [
-            'user02s' => $userRepository->findAll(),
+            'user02s' => $user02Repository->findAll(),
         ]);
     }
 
