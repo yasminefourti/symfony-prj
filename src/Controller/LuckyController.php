@@ -2,16 +2,21 @@
 // src/Controller/LuckyController.php
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\DBAL\Connection; // on utilise DBAL pour requêter
 
-class LuckyController
+class LuckyController extends AbstractController
 {
-    #[Route('/home')]
-    public function hello(): Response
+    #[Route('/home', name: 'home')]
+    public function hello(Connection $connection): Response
     {
-        return new Response(
-            '<html><body>Hello World!</body></html>'
-        );
+        $users = $connection->fetchAllAssociative('SELECT * FROM user02');
+
+        return $this->render('home.html.twig', [
+            'users' => $users,
+        ]);
     }
 }
+
