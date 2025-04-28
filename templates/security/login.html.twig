@@ -1,3 +1,5 @@
+{# templates/security/login.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Login{% endblock %}
@@ -6,20 +8,20 @@
     <h1>Login</h1>
 
     <form action="{{ path('app_login') }}" method="post">
-        <div>
-            <label for="email">Email</label>
-            <input type="text" id="email" name="email" required>
-        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="email" value="{{ last_username }}" required autofocus>
 
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
 
         <button type="submit">Login</button>
     </form>
 
+    {# Afficher l'erreur si l'authentification échoue #}
     {% if error %}
-        <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div class="error">
+            <p>Erreur d'authentification : {{ error.messageKey | trans(error.messageData, 'security') }}</p>
+        </div>
     {% endif %}
 {% endblock %}
